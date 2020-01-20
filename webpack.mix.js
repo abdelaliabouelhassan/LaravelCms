@@ -12,7 +12,7 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+    .sass('resources/sass/app.scss', 'public/css/');
 
         mix.styles([
 
@@ -22,7 +22,7 @@ mix.js('resources/js/app.js', 'public/js')
             'public/css/libs/metisMenu.css',
             'public/css/libs/sb-admin-2.css'
 
-        ],  'public/css/all.css');
+        ],  'public/css/app.css');
 
         mix.scripts([
             'public/js/libs/jquery.js',
@@ -31,4 +31,4 @@ mix.js('resources/js/app.js', 'public/js')
             'public/js/libs/sb-admin-2.js',
             'public/js/libs/scripts.js'
 
-        ], 'public/js/all.js');
+        ], 'public/js/app.js');
