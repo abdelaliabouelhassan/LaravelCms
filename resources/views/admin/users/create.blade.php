@@ -32,6 +32,7 @@
     <div class="form-group">
         {!! Form::submit('Create New User',['class'=>'form-control btn btn-primary']) !!}
     </div>
+    {{Form::close()}}
     @include('includes.form_erros')
     @endsection
 
