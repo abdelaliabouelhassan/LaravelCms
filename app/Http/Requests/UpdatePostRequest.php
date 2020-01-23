@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreatePostRequest extends FormRequest
+class UpdatePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,7 @@ class CreatePostRequest extends FormRequest
             'title'=>'required|max:150',
             'body'=>'required|min:50',
             'category_id'=>'required',
-            'photo_id'=>'required'
+
         ];
     }
 }

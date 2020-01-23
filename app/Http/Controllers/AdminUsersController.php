@@ -117,6 +117,9 @@ class AdminUsersController extends Controller
         }
 
         $user->update($input);
+
+
+
         return  redirect('admin/user');
     }
 
@@ -129,11 +132,12 @@ class AdminUsersController extends Controller
     public function destroy($id)
     {
         $user = User::FindOrFail($id);
-
+        if($user->image_id != 0)
         unlink(public_path() . $user->photo->file);
-
+        $user->post()->delete();
+        unlink(public_path() .  $user->post->file);
         $user->delete();
-        Session::flash('delete_user','Ther User Has Been Deleted');
+        Session::flash('delete_user','This User Has Been Deleted');
 
         return  redirect('admin/user');
     }

@@ -24,7 +24,7 @@ class EditUsersResuest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required',
+            'name'=>'required|max:150',
             'email'=>'required|unique:users',
             'role_id'=>'required',
             'isActive'=>'required'

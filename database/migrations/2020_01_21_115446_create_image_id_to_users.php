@@ -14,7 +14,7 @@ class CreateImageIdToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->int('image_id')->nullable()->default(0);
+            $table->integer('image_id')->nullable()->default(0);
         });
     }
 

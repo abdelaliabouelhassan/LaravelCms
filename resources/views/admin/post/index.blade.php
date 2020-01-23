@@ -5,6 +5,16 @@
 
     <h1>All Post Post</h1>
 
+    <div class="bg bg-danger">
+            @if(session()->has('updatePost'))
+                {{session('updatePost')}}
+                @endif
+
+                @if(session()->has('deletePost'))
+                    {{session('deletePost')}}
+                @endif
+
+    </div>
 
     <div class="container">
 
@@ -26,8 +36,8 @@
                 <tr>
                     <td>{{$p->id}}</td>
                     <td><img height="100" src="{{$p->photo->file}}" alt=""></td>
-                    <td>{{$p->title}}</td>
-                    <td>{{$p->body}}</td>
+                    <td><a href="{{route('post.edit',$p->id)}}">{{$p->title}}</a></td>
+                    <td>{{str_limit($p->body,20)}}</td>
                     <td>{{$p->user->name}}</td>
                     <td>{{$p->category->name}}</td>
                     <td>{{$p->created_at->DiffForHumans()}}</td>

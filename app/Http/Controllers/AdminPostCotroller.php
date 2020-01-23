@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Http\Requests\CreatePostRequest;
+use App\Http\Requests\UpdatePostRequest;
 use App\Photo;
 use App\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 
 class AdminPostCotroller extends Controller
 {
@@ -59,6 +62,8 @@ class AdminPostCotroller extends Controller
 
                 $user->post()->create($input);
 
+        return redirect('admin/post');
+
     }
 
     /**
@@ -80,7 +85,10 @@ class AdminPostCotroller extends Controller
      */
     public function edit($id)
     {
-        return view('admin.post.edit');
+        $post = Post::FindOrFail($id);
+        $cat = Category::pluck('name','id')->all();
+
+        return view('admin.post.edit',compact('post','cat'));
     }
 
     /**
@@ -90,9 +98,25 @@ class AdminPostCotroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePostRequest $request, $id)
     {
-        //
+        $post = Post::findOrFail($id);
+          $input = $request->all();
+
+         if($file = $request->file('photo_id')){
+            $name = time() . $file->getClientOriginalName();
+            $file->move('images',$name);
+            $photo = Photo::create(['file'=>$name]);
+            $input['photo_id'] = $photo->id;
+
+        }else{
+             $input = $request->except('photo_id');
+         }
+
+           $post->update($input);
+        Session::flash('updatePost','The Post Has Been Updated Successful');
+       return  redirect('admin/post');
+
     }
 
     /**
@@ -103,6 +127,11 @@ class AdminPostCotroller extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        unlink(public_path() . $post->photo->file);
+        Session::flash('deletePost','This Post Has Been Deleted');
+
+        $post->delete();
+       return redirect('admin/post');
     }
 }
