@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Comment;
 use App\Http\Requests\CreatePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Photo;
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -22,8 +24,7 @@ class AdminPostCotroller extends Controller
     public function index()
     {
 
-        $post = Post::all();
-
+            $post = Post::paginate(1);
 
         return view('admin.post.index',compact('post'));
     }
@@ -134,4 +135,11 @@ class AdminPostCotroller extends Controller
         $post->delete();
        return redirect('admin/post');
     }
+
+    public  function post($id){
+        $post = Post::findOrFail($id);
+        $comment = Comment::all()->where('post_id','=',$id);
+        return view('post',compact('post','comment'));
+    }
+
 }
